@@ -81,12 +81,21 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                             ),
                           ),
                           SizedBox(height: 16),
-                          LinearProgressIndicator(
-                            value: currentBook.progressPercentage / 100,
-                            backgroundColor: Colors.grey[300],
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              BookUtils.getStatusColor(currentBook.status),
+                          TweenAnimationBuilder<double>(
+                            tween: Tween<double>(
+                              begin: 0,
+                              end: currentBook.progressPercentage / 100,
                             ),
+                            duration: Duration(milliseconds: 500),
+                            builder: (context, value, child) {
+                              return LinearProgressIndicator(
+                                value: value,
+                                backgroundColor: Colors.grey[300],
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  BookUtils.getStatusColor(currentBook.status),
+                                ),
+                              );
+                            },
                           ),
                           SizedBox(height: 8),
                           Text(
