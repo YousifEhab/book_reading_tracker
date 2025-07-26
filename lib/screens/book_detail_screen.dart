@@ -1,6 +1,7 @@
 import 'package:book_reading_tracker/cubits/book_cubit.dart';
 import 'package:book_reading_tracker/cubits/book_state.dart';
 import 'package:book_reading_tracker/models/book.dart';
+import 'package:book_reading_tracker/utils/book_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -84,7 +85,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                             value: currentBook.progressPercentage / 100,
                             backgroundColor: Colors.grey[300],
                             valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.blue,
+                              BookUtils.getStatusColor(currentBook.status),
                             ),
                           ),
                           SizedBox(height: 8),
@@ -104,7 +105,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Status: ${_getStatusText(currentBook.status)}',
+                            'Status: ${BookUtils.getStatusText(currentBook.status)}',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -117,7 +118,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                             items: ReadingStatus.values.map((status) {
                               return DropdownMenuItem(
                                 value: status,
-                                child: Text(_getStatusText(status)),
+                                child: Text(BookUtils.getStatusText(status)),
                               );
                             }).toList(),
                             onChanged: (ReadingStatus? newStatus) {
@@ -221,19 +222,6 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
         );
       },
     );
-  }
-
-  String _getStatusText(ReadingStatus status) {
-    switch (status) {
-      case ReadingStatus.toRead:
-        return 'To Read';
-      case ReadingStatus.reading:
-        return 'Reading';
-      case ReadingStatus.completed:
-        return 'Completed';
-      case ReadingStatus.abandoned:
-        return 'Abandoned';
-    }
   }
 
   void _showDeleteDialog() {

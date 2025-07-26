@@ -1,4 +1,5 @@
 import 'package:book_reading_tracker/models/book.dart';
+import 'package:book_reading_tracker/utils/book_utils.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
@@ -33,7 +34,9 @@ class BookCard extends StatelessWidget {
               LinearProgressIndicator(
                 value: book.progressPercentage / 100,
                 backgroundColor: Colors.grey[300],
-                valueColor: AlwaysStoppedAnimation<Color>(_getStatusColor(book.status)),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  BookUtils.getStatusColor(book.status),
+                ),
               ),
               SizedBox(height: 8),
               Row(
@@ -45,10 +48,10 @@ class BookCard extends StatelessWidget {
                   ),
                   Chip(
                     label: Text(
-                      _getStatusText(book.status),
+                      BookUtils.getStatusText(book.status),
                       style: TextStyle(fontSize: 12),
                     ),
-                    backgroundColor: _getStatusColor(book.status),
+                    backgroundColor: BookUtils.getStatusColor(book.status),
                   ),
                 ],
               ),
@@ -57,31 +60,5 @@ class BookCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _getStatusText(ReadingStatus status) {
-    switch (status) {
-      case ReadingStatus.toRead:
-        return 'To Read';
-      case ReadingStatus.reading:
-        return 'Reading';
-      case ReadingStatus.completed:
-        return 'Completed';
-      case ReadingStatus.abandoned:
-        return 'Abandoned';
-    }
-  }
-
-  Color _getStatusColor(ReadingStatus status) {
-    switch (status) {
-      case ReadingStatus.toRead:
-        return Colors.grey;
-      case ReadingStatus.reading:
-        return Colors.blue;
-      case ReadingStatus.completed:
-        return Colors.green;
-      case ReadingStatus.abandoned:
-        return Colors.red;
-    }
   }
 }
